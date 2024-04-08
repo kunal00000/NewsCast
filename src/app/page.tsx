@@ -1,10 +1,10 @@
-import Card from '@/components/home/card';
-import { DEPLOY_URL } from '@/lib/constants';
-import { Github, Twitter } from '@/components/shared/icons';
-import WebVitals from '@/components/home/web-vitals';
-import ComponentGrid from '@/components/home/component-grid';
+import Card from 'src/components/home/card';
+import { DEPLOY_URL } from 'src/lib/constants';
+import { Github, Twitter } from 'src/components/shared/icons';
+import WebVitals from 'src/components/home/web-vitals';
+import ComponentGrid from 'src/components/home/component-grid';
 import Image from 'next/image';
-import { nFormatter } from '@/lib/utils';
+import { nFormatter } from 'src/lib/utils';
 
 export default async function Home() {
   const { stargazers_count: stars } = await fetch(

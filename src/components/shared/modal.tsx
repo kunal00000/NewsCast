@@ -1,10 +1,10 @@
 'use client';
 
 import { Dispatch, SetStateAction } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from 'src/lib/utils';
 import { Drawer } from 'vaul';
 import * as Dialog from '@radix-ui/react-dialog';
-import useMediaQuery from '@/lib/hooks/use-media-query';
+import useMediaQuery from 'src/lib/hooks/use-media-query';
 
 export default function Modal({
   children,

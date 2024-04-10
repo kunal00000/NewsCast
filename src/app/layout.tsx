@@ -5,13 +5,17 @@ import { sfPro, inter } from './fonts';
 import Nav from 'src/components/layout/nav';
 import Footer from 'src/components/layout/footer';
 import { Suspense } from 'react';
+import { Viewport } from 'next';
 
 export const metadata = {
   title: 'Precedent - Building blocks for your Next.js project',
   description:
     'Precedent is the all-in-one solution for your Next.js project. It includes a design system, authentication, analytics, and more.',
   metadataBase: new URL('https://precedent.dev'),
-  themeColor: '#FFF',
+};
+
+export const viewport: Viewport = {
+  themeColor: 'black',
 };
 
 export default async function RootLayout({

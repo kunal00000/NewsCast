@@ -6,6 +6,8 @@
 .pnp.js
 pnpm-lock.yaml
 
+*service_account.json
+
 # testing
 /coverage
 

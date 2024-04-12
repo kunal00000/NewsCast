@@ -1,21 +1,16 @@
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import cx from 'classnames';
-import { sfPro, inter } from './fonts';
+import { sfPro, inter, bebasNeue } from './fonts';
 import Nav from 'src/components/layout/nav';
 import Footer from 'src/components/layout/footer';
 import { Suspense } from 'react';
-import { Viewport } from 'next';
 
 export const metadata = {
-  title: 'Precedent - Building blocks for your Next.js project',
+  title: 'NewsCast - Your Daily Dose of News, Curated for You',
   description:
-    'Precedent is the all-in-one solution for your Next.js project. It includes a design system, authentication, analytics, and more.',
-  metadataBase: new URL('https://precedent.dev'),
-};
-
-export const viewport: Viewport = {
-  themeColor: 'black',
+    'NewsCast create personalized audio news podcasts that match your interests with newscast.',
+  metadataBase: new URL('https://newscast.vercel.app'),
 };
 
 export default async function RootLayout({
@@ -25,8 +20,8 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cx(sfPro.variable, inter.variable)}>
-        <div className="fixed h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-cyan-100" />
+      <body className={cx(sfPro.variable, inter.variable, bebasNeue.variable)}>
+        <div className="fixed h-screen w-full bg-gradient-to-br from-[#2e2e2e] via-[#000000] to-[#222222]" />
         <Suspense fallback="...">
           <Nav />
         </Suspense>

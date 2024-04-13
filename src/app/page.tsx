@@ -1,6 +1,7 @@
 import AudioPlayer from '@/components/home/audio-player';
 import { ExpandingArrow } from '@/components/shared/icons';
 import Waitlist from '@/components/home/waitlist';
+import Image from 'next/image';
 
 export default async function Home() {
   return (
@@ -41,9 +42,9 @@ export default async function Home() {
               </a>
             </div>
           </div>
-          <img
+          <Image
             src="./hero.webp"
-            alt="amara"
+            alt="hero image of a person listening to a podcast on a phone"
             className="my-12 max-h-[36rem] max-w-2xl animate-fade-up select-none drop-shadow-[0_0px_7px_rgba(200,200,200,0.8)] md:my-0"
           />
         </div>

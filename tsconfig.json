@@ -7,10 +7,8 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["src/components/*"],
-      "@/pages/*": ["pages/*"],
       "@/app/*": ["src/app/*"],
       "@/lib/*": ["src/lib/*"],
-      "@/styles/*": ["styles/*"],
       "@/services/*": ["src/services/*"]
     },
     "strict": true,

@@ -57,12 +57,6 @@
     "prisma": "^5.12.1",
     "tailwindcss": "^3.3.3"
   },
-  "description": "<a href=\"https://precedent.dev\">   <img alt=\"Precedent – Building blocks for your Next project\" src=\"https://precedent.dev/opengraph-image\">   <h1 align=\"center\">Precedent</h1> </a>",
-  "main": "next.config.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "keywords": [],
-  "author": "",
+  "author": "Kunal Verma",
   "license": "AGPL-3.0"
 }

@@ -1,4 +1,4 @@
-import { CF_ACCOUNT_ID, CF_API_TOKEN } from '@/lib/constants';
+import { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN } from '@/lib/constants';
 import { load } from 'cheerio';
 
 export async function getContentsOfArticles(articleLimit: number) {
@@ -27,12 +27,12 @@ async function getSummary(title: string, rawContent: string) {
     max_length: 512,
   };
   const response = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/ai/run/@cf/facebook/bart-large-cnn`,
+    `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/facebook/bart-large-cnn`,
     {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${CF_API_TOKEN}`,
+        Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
       },
       body: JSON.stringify(inputs),
     },

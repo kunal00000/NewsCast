@@ -2,6 +2,7 @@ import AudioPlayer from '@/components/home/audio-player';
 import { ExpandingArrow } from '@/components/shared/icons';
 import Waitlist from '@/components/home/waitlist';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default async function Home() {
   return (
@@ -27,25 +28,28 @@ export default async function Home() {
               className="mx-auto mt-6 flex animate-fade-up space-x-5 font-bold opacity-0 md:mx-0"
               style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}
             >
-              <a
+              <Link
                 className="md:text-md group flex max-w-fit items-center justify-center space-x-2 rounded-full border border-white bg-white px-5 py-2 text-sm text-black transition-colors hover:bg-black hover:text-white"
                 href={'#join-waitlist'}
               >
                 <p>Get Access</p>
-              </a>
-              <a
+              </Link>
+              <Link
                 className="md:text-md flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-black px-5 py-2 text-sm text-gray-300 shadow-md transition-colors hover:border-gray-50"
                 href="/#demo"
               >
                 Listen to Demo
                 <ExpandingArrow />
-              </a>
+              </Link>
             </div>
           </div>
           <Image
-            src="./hero.webp"
+            src="/hero.webp"
+            width={600}
+            height={800}
+            layout='responsive'
             alt="hero image of a person listening to a podcast on a phone"
-            className="my-12 max-h-[36rem] max-w-2xl animate-fade-up select-none drop-shadow-[0_0px_7px_rgba(200,200,200,0.8)] md:my-0"
+            className="my-12 max-h-[36rem] max-w-[38rem] animate-fade-up select-none drop-shadow-[0_0px_7px_rgba(200,200,200,0.8)] md:my-0"
           />
         </div>
 

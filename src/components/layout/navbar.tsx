@@ -36,13 +36,13 @@ export default function NavBar({ session }: { session: Session | null }) {
             {session ? (
               <UserDropdown session={session} />
             ) : (
-              <a
+              <Link
                 className="rounded-full border border-white bg-white p-1.5 px-4 text-sm font-semibold text-black transition-all hover:bg-black hover:text-white"
                 // onClick={() => setShowSignInModal(true)}
                 href="#join-waitlist"
               >
                 Get Access
-              </a>
+              </Link>
             )}
           </div>
         </div>

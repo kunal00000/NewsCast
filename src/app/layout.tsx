@@ -1,7 +1,7 @@
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import cx from 'classnames';
-import { sfPro, inter, bebasNeue } from './fonts';
+import { inter, bebasNeue } from './fonts';
 import Nav from 'src/components/layout/nav';
 import Footer from 'src/components/layout/footer';
 import { Suspense } from 'react';
@@ -20,7 +20,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cx(sfPro.variable, inter.variable, bebasNeue.variable)}>
+      <body className={cx(inter.variable, bebasNeue.variable)}>
         <div className="fixed h-screen w-full bg-gradient-to-br from-[#3e3e3e] via-[#000000] to-[#2c2c2c]" />
         <Suspense fallback="...">
           <Nav />

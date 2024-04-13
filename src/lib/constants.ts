@@ -2,5 +2,10 @@ export const DEPLOY_URL = `https://vercel.com/new/clone?repository-url=https%3A%
 
 export const CLOUDFLARE_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
 export const CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
+export const CLOUDFLARE_R2_BUCKET_NAME= process.env.CLOUDFLARE_R2_BUCKET_NAME;
+export const CLOUDFLARE_R2_SECRET_KEY= process.env.CLOUDFLARE_R2_SECRET_KEY;
+export const CLOUDFLARE_R2_ACCESS_KEY= process.env.CLOUDFLARE_R2_ACCESS_KEY;
+export const CLOUDFLARE_R2_ENDPOINT= process.env.CLOUDFLARE_R2_ENDPOINT;
+export const CLOUDFLARE_R2_MEDIA_SUBDOMAIN= process.env.CLOUDFLARE_R2_MEDIA_SUBDOMAIN;
 
 export const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;

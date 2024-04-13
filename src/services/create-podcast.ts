@@ -5,7 +5,11 @@ import { convertScriptToAudio } from '@/services/audio';
 
 async function getPodcastAudio() {
   const script = await generateScriptForPodcast(3);
-  await convertScriptToAudio(script);
+  if (!script) {
+    console.error('Failed to generate script for podcast');
+    return;
+  }
+  await convertScriptToAudio(script, 'podcast.mp3');
 }
 
 async function generateScriptForPodcast(limit: number) {
@@ -59,5 +63,16 @@ async function generateScriptForPodcast(limit: number) {
   });
 
   console.log(msg);
-  return msg.content[0].text;
+  return getOnlySSML(msg.content[0].text);
+}
+
+function getOnlySSML(str: string) {
+  const start = str.indexOf('<speak>');
+  const end = str.indexOf('</speak>');
+
+  if (start !== -1 && end !== -1 && end > start) {
+    return str.substring(start, end + 8);
+  } else {
+    return null;
+  }
 }

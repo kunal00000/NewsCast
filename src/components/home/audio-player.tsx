@@ -49,7 +49,7 @@ const AudioPlayer = ({
   };
 
   return (
-    <div className="relative col-span-1 mx-auto my-12 max-w-md rounded-lg bg-gradient-to-br from-white/30 via-white/25 to-white/30 p-4 shadow-md backdrop-blur-xl">
+    <div className="relative col-span-1 mx-auto my-12 max-w-lg rounded-lg bg-gradient-to-br from-white/30 via-white/25 to-white/30 p-4 shadow-md backdrop-blur-xl">
       <div className="flex items-center px-4">
         <button
           onClick={togglePlay}

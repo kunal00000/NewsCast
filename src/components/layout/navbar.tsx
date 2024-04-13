@@ -4,10 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useScroll from 'src/lib/hooks/use-scroll';
 // import { useSignInModal } from './sign-in-modal';
-import UserDropdown from './user-dropdown';
-import { Session } from 'next-auth';
+// import UserDropdown from './user-dropdown';
+// import { Session } from 'next-auth';
 
-export default function NavBar({ session }: { session: Session | null }) {
+export default function NavBar() {
+  // export default function NavBar({ session }: { session: Session | null }) {
   // const { SignInModal, setShowSignInModal } = useSignInModal();
   const scrolled = useScroll(50);
 
@@ -33,9 +34,9 @@ export default function NavBar({ session }: { session: Session | null }) {
             <p className="font-oswald">NewsCast</p>
           </Link>
           <div>
-            {session ? (
+            {/* {session ? (
               <UserDropdown session={session} />
-            ) : (
+            ) : ( */}
               <Link
                 className="rounded-full border border-white bg-white p-1.5 px-4 text-sm font-semibold text-black transition-all hover:bg-black hover:text-white"
                 // onClick={() => setShowSignInModal(true)}
@@ -43,7 +44,7 @@ export default function NavBar({ session }: { session: Session | null }) {
               >
                 Get Access
               </Link>
-            )}
+            {/* )} */}
           </div>
         </div>
       </div>

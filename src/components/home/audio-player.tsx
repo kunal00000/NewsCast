@@ -6,10 +6,14 @@ const AudioPlayer = ({
   episodeTitle,
   episodeNumber,
   src,
+  captions,
+  date
 }: {
   episodeTitle: string;
   episodeNumber: string;
   src: string;
+  captions: string;
+  date: string;
 }) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -49,7 +53,7 @@ const AudioPlayer = ({
   };
 
   return (
-    <div className="relative col-span-1 mx-auto my-12 max-w-lg rounded-lg bg-gradient-to-br from-white/30 via-white/25 to-white/30 p-4 shadow-md backdrop-blur-xl">
+    <div className="relative col-span-1 mx-auto my-12 max-w-2xl rounded-lg bg-gradient-to-br from-white/35 via-white/25 to-white/35 p-4 shadow-md backdrop-blur-xl">
       <div className="flex items-center px-4">
         <button
           onClick={togglePlay}
@@ -95,10 +99,15 @@ const AudioPlayer = ({
         </button>
 
         <div>
-          <h3 className="text-lg font-medium text-stone-300">{episodeTitle}</h3>
-          <p className="text-sm text-white/50">
-            Amara Night | Episode {episodeNumber} | {formatTime(duration)}
-          </p>
+          <h3 className="text-lg font-medium text-stone-300 line-clamp-2 max-w-xl">{episodeTitle}</h3>
+          <div className='flex justify-between'>
+            <p className="text-sm text-white/50">
+              Amara Night | Episode {Number(episodeNumber) < 10 ? `0${episodeNumber}` : episodeNumber} | {formatTime(duration)}
+            </p>
+            <p className="text-sm text-white/50">
+              {date}
+            </p>
+          </div>
         </div>
       </div>
 

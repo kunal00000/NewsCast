@@ -1,8 +1,8 @@
-import AudioPlayer from '@/components/home/audio-player';
 import { ExpandingArrow } from '@/components/shared/icons';
 import Waitlist from '@/components/home/waitlist';
 import Image from 'next/image';
 import Link from 'next/link';
+import { PODCAST, TOPICS, Topic } from '@/lib/constants';
 
 export default async function Home() {
   return (
@@ -63,15 +63,30 @@ export default async function Home() {
             Experience NewsCast in Action
           </h2>
           <p className="text-md mx-auto mt-4 max-w-2xl tracking-wider text-white/50 md:text-lg">
-            Tune in to this sample of our personalized audio podcast for the
-            latest tech news.
+            Tune in to these sample of our personalized audio podcasts for the
+            latest news in these category.
           </p>
         </div>
-        <AudioPlayer
-          episodeTitle="Latest in Tech News"
-          episodeNumber="01"
-          src="./output1.mp3"
-        />
+        
+        {
+          <div className="mx-auto flex flex-row flex-wrap justify-evenly basis-1/2 max-w-4xl">
+            {TOPICS.map((topic) => (
+              <Link key={topic} href={`/podcast/${topic}`}>
+                <div className="relative col-span-1 mx-auto my-8 min-w-96 max-w-sm rounded-lg bg-gradient-to-br from-white/40 via-white/25 to-white/40 p-4 shadow-md shadow-white/40 backdrop-blur-xl">
+                  <p className="bg-gradient-to-br from-white to-[#757575] bg-clip-text text-xs font-bold uppercase tracking-widest text-transparent drop-shadow-sm [text-wrap:balance]">
+                    {topic} News
+                  </p>
+                  <div className="mt-2 mb-4 text-center">
+                    <h3 className="text-2xl font-oswald text-white/50 md:text-3xl">
+                      {PODCAST[topic as Topic]}
+                    </h3>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        }
+          
 
         {/* Waitlist */}
         <div id="join-waitlist" className="mb-32" />

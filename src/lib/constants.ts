@@ -10,17 +10,16 @@ export const CLOUDFLARE_R2_MEDIA_SUBDOMAIN= process.env.CLOUDFLARE_R2_MEDIA_SUBD
 
 export const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
-export const TOPICS = ['business', 'health', 'sports', 'tech', 'world', 'local_us'];
+export const TOPICS = ['business', 'tech' ,'health', 'sports', 'world'];
 export const PODCAST = {
   'business':'Business Beats',
   'health':'Wellness & Health',
   'sports':'The Sports Desk',
   'tech': 'Tech Talks',
   'world': 'Worldly Whispers',
-  'local_us': 'Local US News',
 }
 
-export type Topic = 'business' | 'health' | 'sports' | 'tech' | 'world' | 'local_us';
+export type Topic = 'business' | 'health' | 'sports' | 'tech' | 'world' ;
 
 export const GoogleNewsURL = {
   'world':'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en',
@@ -28,5 +27,4 @@ export const GoogleNewsURL = {
   'health':'https://news.google.com/rss/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtVnVLQUFQAQ?hl=en-US&gl=US&ceid=US:en',
   'sports':'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp1ZEdvU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en',
   'tech':'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en',
-  'local_us':'https://news.google.com/rss/topics/CAAqHAgKIhZDQklTQ2pvSWJHOWpZV3hmZGpJb0FBUAE/sections/CAQiW0NCSVNQam9JYkc5allXeGZkakpDRUd4dlkyRnNYM1l5WDNObFkzUnBiMjV5RHhJTkwyY3ZNVEZqTkRWNlgyaGpNbm9QQ2cwdlp5OHhNV00wTlhwZmFHTXlLQUEqNggAKjIICiIsQ0JJU0d6b0liRzlqWVd4ZmRqSjZEd29OTDJjdk1URmpORFY2WDJoak1pZ0FQAVAB?hl=en-US&gl=US&ceid=US:en'
 }

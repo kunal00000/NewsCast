@@ -12,27 +12,27 @@ import { LoadingCircle } from '@/components/shared/icons'
 // export const runtime = 'edge'
 
 function Page({params}: {params: {topic: string}}) {
+  const [podcast,setPodcast] = useState<Podcast | null>(null)
+  const [episodes,setEpisodes] = useState<Episode[]>([])
+  
+  // const prisma = new PrismaClient().$extends(withAccelerate());
+  
+  useEffect(() => {
+    fetch(`/api/podcast/${params.topic}`)
+    .then(res => res.json())
+    .then(data => {
+      setPodcast(data.podcast)
+      setEpisodes(data.episodes)
+    })
+    .catch(err => {
+      console.error(err)
+      notFound()
+    })
+  },[params.topic])
+
   if (!params.topic || !TOPICS.includes(params.topic)) {
     return notFound()
   }
-
-  const [podcast,setPodcast] = useState<Podcast | null>(null)
-  const [episodes,setEpisodes] = useState<Episode[]>([])
-
-  // const prisma = new PrismaClient().$extends(withAccelerate());
-
-  useEffect(() => {
-    fetch(`/api/podcast/${params.topic}`)
-      .then(res => res.json())
-      .then(data => {
-        setPodcast(data.podcast)
-        setEpisodes(data.episodes)
-      })
-      .catch(err => {
-        console.error(err)
-        notFound()
-      })
-  },[params.topic])
   // const podcast = await prisma.podcast.findFirst({
   //   where: {
   //     topic: params.topic

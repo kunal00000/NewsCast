@@ -27,7 +27,7 @@ export default async function RootLayout({
           <Nav />
         </Suspense>
         <main className="flex min-h-screen w-full flex-col items-center justify-center py-32">
-          <Suspense fallback={<LoadingCircle/>}>
+          <Suspense fallback={<LoadingCircle />}>
             {children}
           </Suspense>
         </main>

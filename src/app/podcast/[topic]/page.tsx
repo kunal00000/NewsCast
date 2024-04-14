@@ -1,13 +1,17 @@
 import { notFound } from 'next/navigation'
 import { CLOUDFLARE_R2_MEDIA_SUBDOMAIN, TOPICS } from '@/lib/constants'
 import React from 'react'
-import prisma from '@/lib/prisma'
 import AudioPlayer from '@/components/home/audio-player'
+import { PrismaClient } from '@prisma/client/edge';
+import { withAccelerate } from '@prisma/extension-accelerate';
+
+export const runtime = 'edge'
 
 async function Page({params}: {params: {topic: string}}) {
   if (!params.topic || !TOPICS.includes(params.topic)) {
     return notFound()
   }
+  const prisma = new PrismaClient().$extends(withAccelerate());
 
   const podcast = await prisma.podcast.findFirst({
     where: {
@@ -73,4 +77,8 @@ function getOrdinalSuffix(day:number) {
     case 3: return "rd";
     default: return "th";
   }
+}
+
+export function generateStaticParams(){
+  return TOPICS.map(topic => ({topic}))
 }

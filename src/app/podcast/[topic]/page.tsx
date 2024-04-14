@@ -1,32 +1,60 @@
+'use client'
+
 import { notFound } from 'next/navigation'
 import { CLOUDFLARE_R2_MEDIA_SUBDOMAIN, TOPICS } from '@/lib/constants'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AudioPlayer from '@/components/home/audio-player'
-import { PrismaClient } from '@prisma/client/edge';
-import { withAccelerate } from '@prisma/extension-accelerate';
+import {type Podcast, type Episode} from '@prisma/client'
+import { LoadingCircle } from '@/components/shared/icons'
+// import { PrismaClient } from '@prisma/client/edge';
+// import { withAccelerate } from '@prisma/extension-accelerate';
 
-export const runtime = 'edge'
+// export const runtime = 'edge'
 
-async function Page({params}: {params: {topic: string}}) {
+function Page({params}: {params: {topic: string}}) {
   if (!params.topic || !TOPICS.includes(params.topic)) {
     return notFound()
   }
-  const prisma = new PrismaClient().$extends(withAccelerate());
 
-  const podcast = await prisma.podcast.findFirst({
-    where: {
-      topic: params.topic
-    }
-  })
+  const [podcast,setPodcast] = useState<Podcast | null>(null)
+  const [episodes,setEpisodes] = useState<Episode[]>([])
 
-  const episodes = await prisma.episode.findMany({
-    where: {
-      podcastType: params.topic,
-    },
-    orderBy:{
-      createdAt: 'desc'
-    }
-  })
+  // const prisma = new PrismaClient().$extends(withAccelerate());
+
+  useEffect(() => {
+    fetch(`/api/podcast/${params.topic}`)
+      .then(res => res.json())
+      .then(data => {
+        setPodcast(data.podcast)
+        setEpisodes(data.episodes)
+      })
+      .catch(err => {
+        console.error(err)
+        notFound()
+      })
+  },[params.topic])
+  // const podcast = await prisma.podcast.findFirst({
+  //   where: {
+  //     topic: params.topic
+  //   }
+  // })
+
+  // const episodes = await prisma.episode.findMany({
+  //   where: {
+  //     podcastType: params.topic,
+  //   },
+  //   orderBy:{
+  //     createdAt: 'desc'
+  //   }
+  // })
+
+  if (!podcast || episodes.length === 0) {
+    return (
+      <LoadingCircle />
+    )
+  }
+
+  console.log(CLOUDFLARE_R2_MEDIA_SUBDOMAIN)
 
   return (
     <div className='z-10'>
@@ -79,6 +107,6 @@ function getOrdinalSuffix(day:number) {
   }
 }
 
-export function generateStaticParams(){
-  return TOPICS.map(topic => ({topic}))
-}
+// export function generateStaticParams(){
+//   return TOPICS.map(topic => ({topic}))
+// }

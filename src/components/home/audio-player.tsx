@@ -53,7 +53,7 @@ const AudioPlayer = ({
   };
 
   return (
-    <div className="relative col-span-1 mx-auto my-12 max-w-2xl rounded-lg bg-gradient-to-br from-white/35 via-white/25 to-white/35 p-4 shadow-md backdrop-blur-xl">
+    <div className="relative col-span-1 my-12 max-w-2xl rounded-lg bg-gradient-to-br from-white/35 via-white/25 to-white/35 md:p-4 p-2 mx-2 shadow-md backdrop-blur-xl">
       <div className="flex items-center px-4">
         <button
           onClick={togglePlay}
@@ -99,7 +99,7 @@ const AudioPlayer = ({
         </button>
 
         <div>
-          <h3 className="text-lg font-medium text-stone-300 line-clamp-2 max-w-xl">{episodeTitle}</h3>
+          <h3 className="text-lg font-medium text-stone-300 line-clamp-2 md:max-w-xl max-w-xs">{episodeTitle}</h3>
           <div className='flex justify-between'>
             <p className="text-sm text-white/50">
               Amara Night | Episode {Number(episodeNumber) < 10 ? `0${episodeNumber}` : episodeNumber} | {formatTime(duration)}

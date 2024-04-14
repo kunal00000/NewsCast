@@ -3,7 +3,7 @@ import { cors } from 'hono/cors';
 import { handle } from 'hono/vercel';
 import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
-// import { TOPICS } from '@/lib/constants';
+import { TOPICS } from '@/lib/constants';
 // import { generateScriptForPodcast } from '@/services/create-podcast';
 // import { convertScriptToAudio } from '@/services/audio';
 
@@ -43,6 +43,31 @@ app.use('/*', cors());
 
 //   return c.json({message: 'success', data: episode.id}, {status: 200});
 // })
+
+app.get('/podcast/:topic', async (c) => {
+  const topic = c.req.param('topic')
+
+  if (!TOPICS.includes(topic)) {
+    return c.json({ message: 'Topic not found' }, { status: 400 });
+  }
+
+  const podcast = await prisma.podcast.findFirst({
+    where: {
+      topic,
+    },
+  });
+
+  const episodes = await prisma.episode.findMany({
+    where: {
+      podcastType: topic,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+
+  return c.json({ podcast, episodes }, { status: 200 });
+})
 
 app.post('/waitlist', async (c) => {
   const { name, email } = await c.req.json();

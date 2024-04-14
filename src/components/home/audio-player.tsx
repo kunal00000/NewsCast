@@ -54,10 +54,10 @@ const AudioPlayer = ({
 
   return (
     <div className="relative col-span-1 my-12 max-w-2xl rounded-lg bg-gradient-to-br from-white/35 via-white/25 to-white/35 md:p-4 p-2 mx-2 shadow-md backdrop-blur-xl">
-      <div className="flex items-center px-4">
+      <div className="flex items-center px-2 md:px-4">
         <button
           onClick={togglePlay}
-          className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-black/50"
+          className="md:mr-4 mr-2 flex h-10 w-10 items-center justify-center rounded-full bg-black/50"
         >
           {isPlaying ? (
             <svg
@@ -111,7 +111,7 @@ const AudioPlayer = ({
         </div>
       </div>
 
-      <div className="mt-4 px-6">
+      <div className="mt-4 px-2 md:px-6">
         <div className="h-2 w-full rounded-full bg-gray-800">
           <div
             className="h-2 rounded-full bg-red-600"
@@ -124,6 +124,10 @@ const AudioPlayer = ({
         </div>
       </div>
       <audio ref={audioRef} src={src} />
+
+      {/* <div className='absolute '>
+        <p className="text-sm text-white/50 mt-4">{captions}</p>
+      </div> */}
     </div>
   );
 };

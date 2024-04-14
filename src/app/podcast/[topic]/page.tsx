@@ -6,17 +6,13 @@ import React, { useEffect, useState } from 'react'
 import AudioPlayer from '@/components/home/audio-player'
 import {type Podcast, type Episode} from '@prisma/client'
 import { LoadingCircle } from '@/components/shared/icons'
-// import { PrismaClient } from '@prisma/client/edge';
-// import { withAccelerate } from '@prisma/extension-accelerate';
 
 export const runtime = 'edge'
 
 function Page({params}: {params: {topic: string}}) {
   const [podcast,setPodcast] = useState<Podcast | null>(null)
   const [episodes,setEpisodes] = useState<Episode[]>([])
-  
-  // const prisma = new PrismaClient().$extends(withAccelerate());
-  
+
   useEffect(() => {
     fetch(`/api/podcast/${params.topic}`)
     .then(res => res.json())
@@ -33,20 +29,6 @@ function Page({params}: {params: {topic: string}}) {
   if (!params.topic || !TOPICS.includes(params.topic)) {
     return notFound()
   }
-  // const podcast = await prisma.podcast.findFirst({
-  //   where: {
-  //     topic: params.topic
-  //   }
-  // })
-
-  // const episodes = await prisma.episode.findMany({
-  //   where: {
-  //     podcastType: params.topic,
-  //   },
-  //   orderBy:{
-  //     createdAt: 'desc'
-  //   }
-  // })
 
   if (!podcast || episodes.length === 0) {
     return (
@@ -60,7 +42,7 @@ function Page({params}: {params: {topic: string}}) {
         <h2 className="bg-gradient-to-br from-white to-[#757575] bg-clip-text text-3xl text-transparent drop-shadow-sm [text-wrap:balance] md:text-5xl md:leading-[5rem]">
         {podcast?.title}
         </h2>
-        <p className="text-md mx-auto mt-4 max-w-2xl tracking-wider text-white/50 md:text-lg">
+        <p className="text-md mx-auto mt-4 max-w-xs md:max-w-xl tracking-wider text-white/50 md:text-lg">
         {podcast?.description}
         </p>
       </div>
@@ -104,7 +86,3 @@ function getOrdinalSuffix(day:number) {
     default: return "th";
   }
 }
-
-// export function generateStaticParams(){
-//   return TOPICS.map(topic => ({topic}))
-// }

@@ -22,7 +22,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.variable, bebasNeue.variable)}>
-        <div className="fixed h-screen w-full bg-gradient-to-br from-[#4c4c4c] via-[#000000] to-[#3b3b3b]" />
+        <div className="fixed min-h-screen h-full w-full bg-gradient-to-br from-[#4c4c4c] via-[#000000] to-[#3b3b3b]"/>
         <Suspense fallback="...">
           <Nav />
         </Suspense>

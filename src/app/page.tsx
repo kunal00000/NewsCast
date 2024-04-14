@@ -69,10 +69,10 @@ export default async function Home() {
         </div>
         
         {
-          <div className="mx-auto flex flex-row flex-wrap justify-evenly basis-1/2 max-w-4xl">
+          <div className="mx-auto flex flex-row flex-wrap  justify-evenly md:max-w-4xl">
             {TOPICS.map((topic) => (
               <Link key={topic} href={`/podcast/${topic}`}>
-                <div className="relative col-span-1 mx-auto my-8 min-w-96 max-w-sm rounded-lg bg-gradient-to-br from-white/40 via-white/25 to-white/40 p-4 shadow-md shadow-white/40 backdrop-blur-xl">
+                <div className="relative col-span-1 mx-auto my-8 md:min-w-96 min-w-80 rounded-lg bg-gradient-to-br from-white/40 via-white/25 to-white/40 p-4 shadow-md shadow-white/40 backdrop-blur-xl duration-300 hover:scale-[104%]">
                   <p className="bg-gradient-to-br from-white to-[#757575] bg-clip-text text-xs font-bold uppercase tracking-widest text-transparent drop-shadow-sm [text-wrap:balance]">
                     {topic} News
                   </p>

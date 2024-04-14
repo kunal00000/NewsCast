@@ -1,14 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url       = env("DATABASE_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Account {
@@ -64,4 +61,46 @@ model Waitlist {
   name      String
   email     String   @unique
   createdAt DateTime @default(now())
+}
+
+model Episode {
+  id          Int     @id @default(autoincrement())
+  title       String?
+  ssml_script String?
+  raw_script  String?
+  filename    String  @unique
+  News        News[]
+
+  Podcast     Podcast @relation(fields: [podcastType], references: [topic])
+  podcastType String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model News {
+  id           Int     @id @default(autoincrement())
+  title        String
+  content      String?
+  summary      String
+  source       String
+  publish_date String
+  url          String
+
+  Episode   Episode? @relation(fields: [episodeId], references: [id])
+  episodeId Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Podcast {
+  id          Int       @id @default(autoincrement())
+  title       String
+  topic       String    @unique
+  description String?
+  Episode     Episode[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -1,9 +1,12 @@
-import { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN } from '@/lib/constants';
+import { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN, GoogleNewsURL, Topic } from '@/lib/constants';
 import { load } from 'cheerio';
+import prisma from '@/lib/prisma';
 
-export async function getContentsOfArticles(articleLimit: number) {
+export async function getContentsOfArticles(articleLimit: number, topic: Topic, episodeId: number) {
   const articleLinksAndTitles = await fetchTopStoriesFromGoogleNews(
     articleLimit,
+    topic,
+    episodeId
   );
 
   const RawArticles = await Promise.all(
@@ -13,18 +16,42 @@ export async function getContentsOfArticles(articleLimit: number) {
     })),
   );
 
-  return await Promise.all(
+  const articles = await Promise.all(
     RawArticles.map(async (article) => ({
       ...article,
       summary: await getSummary(article.title, article.rawContent || ''),
     })),
   );
+
+  for(let i=0; i<articles.length; i++){
+
+    const isExist = await prisma.news.findFirst({
+      where: {
+        url: articles[i].url
+      }
+    })
+    if(isExist) continue;
+
+    await prisma.news.create({
+      data:{
+        title: articles[i].title,
+        content: articles[i].rawContent,
+        url: articles[i].url,
+        publish_date: articles[i].publish_date,
+        source: articles[i].source || '',
+        summary: articles[i].summary,
+        episodeId,
+      }
+    })
+  }
+
+  return articles;
 }
 
 async function getSummary(title: string, rawContent: string) {
   const inputs = {
     input_text: title + ' ' + rawContent,
-    max_length: 512,
+    max_length: 1024,
   };
   const response = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/facebook/bart-large-cnn`,
@@ -46,9 +73,9 @@ async function getSummary(title: string, rawContent: string) {
   return summary;
 }
 
-async function fetchTopStoriesFromGoogleNews(limit: number) {
+async function fetchTopStoriesFromGoogleNews(limit: number, topic: Topic, episodeId: number) {
   const response = await fetch(
-    'https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en',
+    GoogleNewsURL[topic],
   );
 
   const html = await response.text();
@@ -68,7 +95,33 @@ async function fetchTopStoriesFromGoogleNews(limit: number) {
     })
     .get();
 
-  // console.log(articles);
+    const inputs = {
+      input_text: articles.map((article) => article.title).join(', '),
+      max_length: 512,
+    };
+
+    const episode_title_res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/facebook/bart-large-cnn`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+      },
+      body: JSON.stringify(inputs),
+    })
+
+    const episode_title_data = await episode_title_res.json();
+
+    const episode_title = episode_title_data.result.summary;
+
+    await prisma.episode.update({
+      where: {
+        id: episodeId
+      },
+      data: {
+        title: episode_title
+      }
+    })
+
   return articles;
 }
 

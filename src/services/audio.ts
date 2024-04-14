@@ -1,6 +1,7 @@
 import textToSpeech from '@google-cloud/text-to-speech';
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { CLOUDFLARE_R2_ACCESS_KEY, CLOUDFLARE_R2_BUCKET_NAME, CLOUDFLARE_R2_ENDPOINT, CLOUDFLARE_R2_SECRET_KEY } from '@/lib/constants';
+import prisma from '@/lib/prisma';
+import { CLOUDFLARE_API_TOKEN, CLOUDFLARE_R2_ACCESS_KEY, CLOUDFLARE_R2_BUCKET_NAME, CLOUDFLARE_R2_ENDPOINT, CLOUDFLARE_R2_SECRET_KEY, CLOUDFLARE_ACCOUNT_ID } from '@/lib/constants';
 
 type SynthesizeSpeechRequest = {
   input: { ssml: string };
@@ -9,10 +10,10 @@ type SynthesizeSpeechRequest = {
 };
 
 // Expected error: service_account.json not found
-process.env.GOOGLE_APPLICATION_CREDENTIALS = './service_account.json';
+process.env.GOOGLE_APPLICATION_CREDENTIALS = './src/services/service_account.json';
 const client = new textToSpeech.TextToSpeechClient();
 
-export async function convertScriptToAudio(script: string, filename: string) {
+export async function convertScriptToAudio(script: string, filename: string, episodeId: number) {
   const request: SynthesizeSpeechRequest = {
     input: { ssml: script },
     voice: {
@@ -55,6 +56,28 @@ export async function convertScriptToAudio(script: string, filename: string) {
   });
 
   await s3Client.send(putObjectCommand);
+
+  const speech_res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/openai/whisper`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/octet-stream',
+       Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`
+      },
+    body: fileData,
+  })
+
+  const data = await speech_res.json();
+
+  const {result:{text}} = data
+
+  await prisma.episode.update({
+    where: { id: episodeId },
+    data: {
+      ssml_script: script,
+      raw_script: text
+    },
+  });
 
   console.log('Audio content uploaded to S3');
 }

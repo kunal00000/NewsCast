@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Caption from './captions';
 
 const AudioPlayer = ({
   episodeTitle,
@@ -31,9 +32,12 @@ const AudioPlayer = ({
     }
   };
 
+  const [activeCaption, setActiveCaption] = useState('');
+  const [segmentedCaptions, setSegmentedCaptions] = useState<string[]>([]);
+  
   useEffect(() => {
     const audio = document.getElementsByTagName('audio')[0];
-
+    
     const updateCurrentTime = () => {
       setCurrentTime(audio.currentTime);
       setDuration(audio.duration);
@@ -46,11 +50,34 @@ const AudioPlayer = ({
     };
   }, []);
 
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
+  useEffect(() => {
+    const segmentScript = (script: string) => script.split(' ')
+
+    setSegmentedCaptions(segmentScript(captions));
+  }, [captions]);
+
+  useEffect(() => {
+    const audio = document.getElementsByTagName('audio')[0];
+    const updateCaption = () => {
+      const progressRatio = audio.currentTime / audio.duration;
+      if (progressRatio === 1) {
+        setActiveCaption('');
+        setIsPlaying(false);
+        return;
+      }
+      const estimatedIndex = Math.floor(progressRatio * segmentedCaptions.length);
+      const startIndex = Math.max(0, estimatedIndex - 4);
+      const endIndex = Math.min(segmentedCaptions.length - 1, estimatedIndex + 4);
+
+      const captionsToDisplay = segmentedCaptions.slice(startIndex, endIndex + 1);
+
+      setActiveCaption(captionsToDisplay.join(' '));
+    };
+    audio.addEventListener('timeupdate', updateCaption);
+    return () => {
+      audio.removeEventListener('timeupdate', updateCaption);
+    };
+  }, [segmentedCaptions]);
 
   return (
     <div className="relative col-span-1 my-12 max-w-2xl rounded-lg bg-gradient-to-br from-white/35 via-white/25 to-white/35 md:p-4 p-2 mx-2 shadow-md backdrop-blur-xl">
@@ -125,11 +152,17 @@ const AudioPlayer = ({
       </div>
       <audio ref={audioRef} src={src} />
 
-      {/* <div className='absolute '>
-        <p className="text-sm text-white/50 mt-4">{captions}</p>
-      </div> */}
+      <Caption>
+        {activeCaption}
+      </Caption>
     </div>
   );
 };
 
 export default AudioPlayer;
+
+const formatTime = (time: number) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+};

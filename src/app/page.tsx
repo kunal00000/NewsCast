@@ -98,7 +98,7 @@ export default async function Home() {
             Join the Waitlist
           </h2>
           <p className="text-md mx-auto mt-4 max-w-2xl font-oswald tracking-wider text-white/50 md:text-lg">
-            Sign up to be notified when NewsCast is available for you.
+            Join waitlist to be notified when NewsCast is available for you.
           </p>
 
           <Waitlist />

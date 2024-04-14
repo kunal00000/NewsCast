@@ -9,7 +9,7 @@ import { LoadingCircle } from '@/components/shared/icons'
 // import { PrismaClient } from '@prisma/client/edge';
 // import { withAccelerate } from '@prisma/extension-accelerate';
 
-// export const runtime = 'edge'
+export const runtime = 'edge'
 
 function Page({params}: {params: {topic: string}}) {
   const [podcast,setPodcast] = useState<Podcast | null>(null)
@@ -53,8 +53,6 @@ function Page({params}: {params: {topic: string}}) {
       <LoadingCircle />
     )
   }
-
-  console.log(CLOUDFLARE_R2_MEDIA_SUBDOMAIN)
 
   return (
     <div className='z-10'>

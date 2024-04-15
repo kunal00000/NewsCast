@@ -16,19 +16,19 @@ const AudioPlayer = ({
   captions: string;
   date: string;
 }) => {
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
-    if (isPlaying) {
-      // @ts-ignore
-      audioRef.current.pause();
-    } else {
-      // @ts-ignore
-      audioRef.current.play();
+    if(audioRef.current){
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
     }
   };
 
@@ -36,18 +36,19 @@ const AudioPlayer = ({
   const [segmentedCaptions, setSegmentedCaptions] = useState<string[]>([]);
   
   useEffect(() => {
-    const audio = document.getElementsByTagName('audio')[0];
-    
-    const updateCurrentTime = () => {
-      setCurrentTime(audio.currentTime);
-      setDuration(audio.duration);
-    };
+    const audio = audioRef.current;
+    if (audio) {
+      const updateCurrentTime = () => {
+        setCurrentTime(audio.currentTime);
+        setDuration(audio.duration);
+      };
 
-    audio.addEventListener('timeupdate', updateCurrentTime);
+      audio.addEventListener('timeupdate', updateCurrentTime);
 
-    return () => {
-      audio.removeEventListener('timeupdate', updateCurrentTime);
-    };
+      return () => {
+        audio.removeEventListener('timeupdate', updateCurrentTime);
+      };
+    }
   }, []);
 
   useEffect(() => {
@@ -57,25 +58,28 @@ const AudioPlayer = ({
   }, [captions]);
 
   useEffect(() => {
-    const audio = document.getElementsByTagName('audio')[0];
-    const updateCaption = () => {
-      const progressRatio = audio.currentTime / audio.duration;
-      if (progressRatio === 1) {
-        setActiveCaption('');
-        setIsPlaying(false);
-        return;
+    const audio = audioRef.current;
+    if(audio){
+
+      const updateCaption = () => {
+        const progressRatio = audio.currentTime / audio.duration;
+        if (progressRatio === 1) {
+          setActiveCaption('');
+          setIsPlaying(false);
+          return;
+        }
+        const estimatedIndex = Math.floor(progressRatio * segmentedCaptions.length);
+        const startIndex = Math.max(0, estimatedIndex - 5);
+        const endIndex = Math.min(segmentedCaptions.length - 1, estimatedIndex + 5);
+        
+        const captionsToDisplay = segmentedCaptions.slice(startIndex, endIndex + 1);
+        
+        setActiveCaption(captionsToDisplay.join(' '));
+      };
+      audio.addEventListener('timeupdate', updateCaption);
+      return () => {
+        audio.removeEventListener('timeupdate', updateCaption);
       }
-      const estimatedIndex = Math.floor(progressRatio * segmentedCaptions.length);
-      const startIndex = Math.max(0, estimatedIndex - 4);
-      const endIndex = Math.min(segmentedCaptions.length - 1, estimatedIndex + 4);
-
-      const captionsToDisplay = segmentedCaptions.slice(startIndex, endIndex + 1);
-
-      setActiveCaption(captionsToDisplay.join(' '));
-    };
-    audio.addEventListener('timeupdate', updateCaption);
-    return () => {
-      audio.removeEventListener('timeupdate', updateCaption);
     };
   }, [segmentedCaptions]);
 

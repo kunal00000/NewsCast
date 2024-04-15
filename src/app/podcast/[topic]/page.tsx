@@ -51,7 +51,7 @@ function Page({params}: {params: {topic: string}}) {
         <AudioPlayer
           key={episode.id}
           episodeTitle={episode.title || 'Untitled'}
-          episodeNumber={`${i+1}`}
+          episodeNumber={`${episodes.length - i}`}
           src={`${CLOUDFLARE_R2_MEDIA_SUBDOMAIN}/${episode.filename}`}
           date={episode.createdAt ? formatDate(new Date(episode.createdAt)) : 'Unknown date'}
           captions={episode.raw_script || 'No description'}

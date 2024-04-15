@@ -20,7 +20,7 @@ export default async function Home() {
               className="mt-6 animate-fade-up  font-oswald text-white/50 opacity-0 [text-wrap:balance] md:text-left md:text-3xl"
               style={{ animationDelay: '0.25s', animationFillMode: 'forwards' }}
             >
-              Discover Personalized Audio News Podcasts that Match Your
+              Discover Audio News Podcasts that Match Your
               Interests with NewsCast.
             </p>
 
@@ -63,7 +63,7 @@ export default async function Home() {
             Experience NewsCast in Action
           </h2>
           <p className="text-md mx-auto mt-4 max-w-2xl tracking-wider text-white/50 md:text-lg">
-            Tune in to these sample of our personalized audio podcasts for the
+            Tune in to these sample of our audio podcasts for the
             latest news in these category.
           </p>
         </div>

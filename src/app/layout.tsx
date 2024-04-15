@@ -10,7 +10,7 @@ import { LoadingCircle} from '@/components/shared/icons';
 export const metadata = {
   title: 'NewsCast - Your Daily Dose of News, Curated for You',
   description:
-    'NewsCast create personalized audio news podcasts that match your interests with newscast.',
+    'NewsCast create audio news podcasts that match your interests with newscast.',
   metadataBase: new URL('https://newscast.pages.dev'),
 };
 

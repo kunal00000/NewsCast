@@ -169,7 +169,7 @@ function cleanText(text: string) {
 
 function getUrlFromGuid(guid: string, $item: any): string {
   try {
-    const decodedString = window.atob(guid);
+    const decodedString = atob(guid);
 
     var urlRegex = /https?:\/\/[^\s]+(?=Ò)/g;
     const urlMatch = decodedString.match(urlRegex);

@@ -32,6 +32,7 @@ This app tackles these problems:
 
 **Platforms**
 
+- [Claude AI](https://claude.ai) - Create script for podcast using news
 - [Cloudflare Pages](https://www.cloudflare.com) – Easily preview & deploy changes with git
 - [Cloudflare Workers AI](https://www.cloudflare.com) - Run machine learning models, powered by serverless GPUs
 - [Cloudflare R2](https://www.cloudflare.com) - Object Storage 
